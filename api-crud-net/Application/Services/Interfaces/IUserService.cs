@@ -4,10 +4,10 @@ namespace api_crud_net.Application.Services.Interfaces
 {
     public interface IUserService
     {
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        void Add(User user);
-        void Update(User user);
-        void Delete(User user);
+        Task<IEnumerable<User>> GetAll();
+        Task<User> GetById(int id);
+        Task Add(User user);
+        Task Update(User user);
+        Task Delete(User user);
     }
 }
