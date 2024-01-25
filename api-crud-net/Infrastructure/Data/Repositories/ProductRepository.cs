@@ -23,9 +23,16 @@ namespace api_crud_net.Infrastructure.Data.Repositories
             return products;
         }
 
-        public Task<Product> GetById(int id)
+        public async Task<Product> GetById(int id)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            return product;
         }
 
         public async Task Add(Product product)

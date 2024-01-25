@@ -40,6 +40,10 @@ namespace api_crud_net.Application.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(Order order)
         {
+            if (order == null)
+            {
+                return BadRequest();
+            }
             await _service.Update(order);
             return Ok();
         }
@@ -47,7 +51,12 @@ namespace api_crud_net.Application.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(Order order)
         {
-            await _service.Delete(order);
+            var orderToDelete = await _service.GetById(order.Id);
+            if (order == null)
+            {
+                return BadRequest();
+            }
+            await _service.Delete(orderToDelete);
             return Ok();
         }
 

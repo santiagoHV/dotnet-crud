@@ -36,7 +36,7 @@ namespace api_crud_net.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddProduct(Product product)
+        public async Task<ActionResult> Add(Product product) 
         {
             if (product == null)
             {
@@ -47,7 +47,7 @@ namespace api_crud_net.Application.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id)
+        public async Task<IActionResult> Update(int id)
         {
             var product = await _productService.GetById(id);
 
@@ -62,12 +62,12 @@ namespace api_crud_net.Application.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var product = await _productService.GetById(id);
+            var productToDelete = await _productService.GetById(id);
 
-            if (product == null)
+            if (productToDelete == null)
                 return NotFound();
 
-            await _productService.Delete(product);
+            await _productService.Delete(productToDelete);
 
             return NoContent();
         }

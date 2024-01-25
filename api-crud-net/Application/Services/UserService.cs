@@ -1,7 +1,6 @@
 ﻿using api_crud_net.Application.Services.Interfaces;
 using api_crud_net.Domain.Entities;
 using api_crud_net.Domain.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace api_crud_net.Application.Services
 {
@@ -19,6 +18,12 @@ namespace api_crud_net.Application.Services
             return users;
         }
 
+        public async Task<User> GetById(int id)
+        {
+            var user = await _userRepository.GetById(id);
+            return user;
+        }
+
         public async Task Add(User userDto)
         {
             await _userRepository.Add(userDto);
@@ -27,12 +32,6 @@ namespace api_crud_net.Application.Services
         public async Task Delete(User user)
         {
             await _userRepository.Delete(user);
-        }
-
-        public async Task<User> GetById(int id)
-        {
-            var user = await _userRepository.GetById(id);
-            return user;
         }
 
         public async Task Update(User user)

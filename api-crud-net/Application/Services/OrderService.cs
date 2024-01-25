@@ -1,33 +1,57 @@
 ﻿using api_crud_net.Application.Services.Interfaces;
 using api_crud_net.Domain.Entities;
+using api_crud_net.Domain.Repositories;
 
 namespace api_crud_net.Application.Services
 {
     public class OrderService : IOrderService
     {
-        public Task Add(Order order)
+        private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IUserRepository _userRepository;
+
+        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository, IUserRepository userRepository)
         {
-            throw new NotImplementedException();
+            _orderRepository = orderRepository;
+            _productRepository = productRepository;
+            _userRepository = userRepository;
         }
 
-        public Task Delete(Order order)
+        public async Task<IEnumerable<Order>> GetAll()
         {
-            throw new NotImplementedException();
+            var orders = await _orderRepository.GetAll();
+            return orders;
         }
 
-        public Task<IEnumerable<Order>> GetAll()
+        public async Task<Order> GetById(int id)
         {
-            throw new NotImplementedException();
+            var order = await _orderRepository.GetById(id);
+            return order;
+        }
+        public async Task Add(Order order)
+        {
+            var product = await _productRepository.GetById(order.ProductId);
+            var iva = 0.19m;
+            order.UnitPrice = product.Price;
+            order.Subtotal = order.Quantity * order.UnitPrice;
+            order.Iva = order.Subtotal * iva;
+            order.Total = order.Subtotal + order.Iva;
+
+            var user = await _userRepository.GetById(order.UserId);
+            order.User = user;
+
+            await _orderRepository.Add(order);
         }
 
-        public Task<Order> GetById(int id)
+        public async Task Delete(Order order)
         {
-            throw new NotImplementedException();
+            await _orderRepository.Delete(order);
         }
 
-        public Task Update(Order order)
+
+        public async Task Update(Order order)
         {
-            throw new NotImplementedException();
+            await _orderRepository.Update(order);
         }
     }
 }
