@@ -91,7 +91,7 @@ namespace api_crud_net.Infrastructure.Data
             modelBuilder.Entity<Order>()
                 .Property(o => o.Iva)
                 .HasColumnName("PedIVA")
-                .HasColumnName("Decimal(5,2)")
+                .HasColumnType("Decimal(5,2)")
                 .IsRequired();
 
             modelBuilder.Entity<Order>()
